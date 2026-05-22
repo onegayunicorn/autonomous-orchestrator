@@ -1,0 +1,119 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autonomous-orchestrator"
+version = "7.0.0"
+description = "Autonomous Orchestrator for Aether Grid - Self-governing command execution engine with 42 agents"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Tyrone J Power Ω", email = "tyrone@onegayunicorn.foundation"}
+]
+keywords = [
+    "aether",
+    "orchestrator", 
+    "autonomous",
+    "quantum",
+    "coherence",
+    "entanglement",
+    "automation",
+    "command-execution"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.5.0",
+    "yarl>=1.9.0",
+    "aiohttp>=3.8.0",
+    "orjson>=3.9.0",
+    "click>=8.1.0",
+    "rich>=13.7.0",
+    "structlog>=23.2.0",
+    "prometheus-client>=0.17.0",
+    "cryptography>=41.0.0",
+    "pyjwt>=2.8.0",
+    "python-jose[cryptography]>=3.3.0",
+    "psutil>=5.9.0",
+    "platformdirs>=3.10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=23.10.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+    "types-pyyaml>=6.0.0",
+    "types-requests>=2.31.0",
+]
+test = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",
+]
+quantum = [
+    "qiskit>=0.44.0",
+    "numpy>=1.26.0",
+    "scipy>=1.11.0",
+]
+
+[project.scripts]
+aether-orchestrator = "orchestrator:main"
+ao = "orchestrator:main"
+
+[project.urls]
+Homepage = "https://github.com/onegayunicorn/autonomous-orchestrator"
+BugReports = "https://github.com/onegayunicorn/autonomous-orchestrator/issues"
+Source = "https://github.com/onegayunicorn/autonomous-orchestrator"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.black]
+line-length = 100
+target-version = ["py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+    "B008",  # do not perform function calls in argument defaults
+]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
