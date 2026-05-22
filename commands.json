@@ -1,0 +1,425 @@
+{
+  "metadata": {
+    "version": "7.0.0",
+    "total_commands": 28,
+    "categories": 9,
+    "fold_entry": "FE-OGUF-P1",
+    "sovereign_architect": "Tyrone J Power Ω"
+  },
+  "categories": {
+    "system": {
+      "description": "System-level commands for monitoring and status",
+      "risk_base": "LOW",
+      "commands": {
+        "status": {
+          "description": "Get comprehensive system status",
+          "agent_role": "monitoring",
+          "risk_level": "LOW",
+          "timeout": 5,
+          "parameters": [],
+          "example": "status"
+        },
+        "health": {
+          "description": "Check system health metrics",
+          "agent_role": "monitoring",
+          "risk_level": "LOW",
+          "timeout": 5,
+          "parameters": [],
+          "example": "health"
+        },
+        "coherence": {
+          "description": "Check quantum coherence level",
+          "agent_role": "quantum",
+          "risk_level": "MEDIUM",
+          "timeout": 10,
+          "parameters": [],
+          "example": "coherence",
+          "expected_output": {
+            "coherence": 0.99997,
+            "target": 0.99997,
+            "status": "optimal"
+          }
+        },
+        "entanglement": {
+          "description": "Check entanglement pair status",
+          "agent_role": "quantum",
+          "risk_level": "MEDIUM",
+          "timeout": 10,
+          "parameters": [],
+          "example": "entanglement",
+          "expected_output": {
+            "pairs": 288,
+            "factor": 0.034,
+            "status": "synchronized"
+          }
+        },
+        "metrics": {
+          "description": "Get system performance metrics",
+          "agent_role": "monitoring",
+          "risk_level": "LOW",
+          "timeout": 5,
+          "parameters": [],
+          "example": "metrics",
+          "expected_output": {
+            "cpu": 42.0,
+            "memory": 1.8,
+            "disk": 2.3,
+            "network": 15.0
+          }
+        }
+      }
+    },
+    "orchestration": {
+      "description": "Service orchestration commands",
+      "risk_base": "MEDIUM",
+      "commands": {
+        "start": {
+          "description": "Start all Aether Grid services",
+          "agent_role": "orchestration",
+          "risk_level": "HIGH",
+          "timeout": 30,
+          "parameters": ["services"],
+          "example": "start all",
+          "notes": "Starts: orchestrator_bridge, auth_service, quantum/entanglement_twins, alchemy_engine, dawn_of_time, interverter_core, plasma_healing"
+        },
+        "stop": {
+          "description": "Stop all Aether Grid services",
+          "agent_role": "orchestration",
+          "risk_level": "HIGH",
+          "timeout": 30,
+          "parameters": ["services"],
+          "example": "stop all"
+        },
+        "restart": {
+          "description": "Restart all services",
+          "agent_role": "orchestration",
+          "risk_level": "HIGH",
+          "timeout": 60,
+          "parameters": [],
+          "example": "restart"
+        },
+        "scale": {
+          "description": "Scale services up or down",
+          "agent_role": "orchestration",
+          "risk_level": "MEDIUM",
+          "timeout": 20,
+          "parameters": ["direction", "count"],
+          "example": "scale up 2",
+          "notes": "direction: up/down, count: number of instances"
+        },
+        "balance": {
+          "description": "Balance service load",
+          "agent_role": "orchestration",
+          "risk_level": "MEDIUM",
+          "timeout": 15,
+          "parameters": [],
+          "example": "balance"
+        }
+      }
+    },
+    "execution": {
+      "description": "Command execution and script running",
+      "risk_base": "HIGH",
+      "commands": {
+        "run": {
+          "description": "Execute a custom command",
+          "agent_role": "execution",
+          "risk_level": "CRITICAL",
+          "timeout": 60,
+          "parameters": ["command"],
+          "example": "run ls -la",
+          "notes": "Only whitelisted commands allowed"
+        },
+        "script": {
+          "description": "Run a script file",
+          "agent_role": "execution",
+          "risk_level": "HIGH",
+          "timeout": 30,
+          "parameters": ["script_path"],
+          "example": "script /path/to/script.py",
+          "notes": "Script must be in approved directory"
+        },
+        "async": {
+          "description": "Run command asynchronously",
+          "agent_role": "execution",
+          "risk_level": "HIGH",
+          "timeout": 5,
+          "parameters": ["command"],
+          "example": "async npm run dev"
+        },
+        "background": {
+          "description": "Run command in background",
+          "agent_role": "execution",
+          "risk_level": "HIGH",
+          "timeout": 5,
+          "parameters": ["command"],
+          "example": "background python3 orchestrator_bridge.py"
+        }
+      }
+    },
+    "security": {
+      "description": "Security-related commands",
+      "risk_base": "HIGH",
+      "commands": {
+        "audit": {
+          "description": "Run security audit",
+          "agent_role": "security",
+          "risk_level": "MEDIUM",
+          "timeout": 15,
+          "parameters": [],
+          "example": "audit",
+          "expected_output": {
+            "status": "secure",
+            "vulnerabilities": 0
+          }
+        },
+        "rotate_keys": {
+          "description": "Rotate encryption keys",
+          "agent_role": "security",
+          "risk_level": "HIGH",
+          "timeout": 10,
+          "parameters": [],
+          "example": "rotate_keys",
+          "notes": "Generates new 256-bit sovereign key"
+        },
+        "verify": {
+          "description": "Verify data integrity",
+          "agent_role": "security",
+          "risk_level": "MEDIUM",
+          "timeout": 10,
+          "parameters": ["file"],
+          "example": "verify /path/to/file"
+        },
+        "encrypt": {
+          "description": "Encrypt data",
+          "agent_role": "security",
+          "risk_level": "HIGH",
+          "timeout": 10,
+          "parameters": ["data", "key"],
+          "example": "encrypt secret_data my_key"
+        }
+      }
+    },
+    "quantum": {
+      "description": "Quantum system commands",
+      "risk_base": "MEDIUM",
+      "commands": {
+        "calibrate": {
+          "description": "Calibrate quantum systems",
+          "agent_role": "quantum",
+          "risk_level": "HIGH",
+          "timeout": 20,
+          "parameters": [],
+          "example": "calibrate",
+          "notes": "Calibrates all quantum components"
+        },
+        "sync": {
+          "description": "Synchronize entanglement pairs",
+          "agent_role": "quantum",
+          "risk_level": "MEDIUM",
+          "timeout": 15,
+          "parameters": [],
+          "example": "sync",
+          "notes": "Syncs all 288 entanglement pairs"
+        },
+        "measure": {
+          "description": "Measure quantum state",
+          "agent_role": "quantum",
+          "risk_level": "MEDIUM",
+          "timeout": 10,
+          "parameters": ["qubit"],
+          "example": "measure 0"
+        },
+        "entangle": {
+          "description": "Create entanglement",
+          "agent_role": "quantum",
+          "risk_level": "HIGH",
+          "timeout": 20,
+          "parameters": ["qubit1", "qubit2"],
+          "example": "entangle 0 1"
+        }
+      }
+    },
+    "alchemical": {
+      "description": "Alchemical transmutation commands",
+      "risk_base": "HIGH",
+      "commands": {
+        "transmute": {
+          "description": "Run transmutation sequence",
+          "agent_role": "alchemical",
+          "risk_level": "HIGH",
+          "timeout": 45,
+          "parameters": ["element1", "element2"],
+          "example": "transmute lead gold",
+          "notes": "Requires Tria Prima balance",
+          "expected_output": {
+            "status": "transmuting",
+            "tria_prima": [0.333, 0.333, 0.333],
+            "purity": 1.0
+          }
+        },
+        "balance": {
+          "description": "Balance elemental forces",
+          "agent_role": "alchemical",
+          "risk_level": "MEDIUM",
+          "timeout": 20,
+          "parameters": [],
+          "example": "balance",
+          "expected_output": {
+            "status": "balanced",
+            "purity": 1.0
+          }
+        },
+        "purify": {
+          "description": "Purify elements",
+          "agent_role": "alchemical",
+          "risk_level": "MEDIUM",
+          "timeout": 15,
+          "parameters": ["element"],
+          "example": "purify water"
+        }
+      }
+    },
+    "temporal": {
+      "description": "Temporal manipulation commands",
+      "risk_base": "CRITICAL",
+      "commands": {
+        "anchor": {
+          "description": "Set temporal anchor",
+          "agent_role": "temporal",
+          "risk_level": "CRITICAL",
+          "timeout": 30,
+          "parameters": ["entry_point"],
+          "example": "anchor FE-OGUF-P1",
+          "notes": "Sets anchor for temporal stability",
+          "expected_output": {
+            "status": "anchored",
+            "fold_entry": "FE-OGUF-P1",
+            "temporal_stability": "optimal"
+          }
+        },
+        "simulate": {
+          "description": "Run temporal simulation",
+          "agent_role": "temporal",
+          "risk_level": "HIGH",
+          "timeout": 60,
+          "parameters": ["scenario"],
+          "example": "simulate dawn_of_time",
+          "notes": "Runs light/dark equilibrium simulation"
+        },
+        "rewind": {
+          "description": "Rewind temporal state",
+          "agent_role": "temporal",
+          "risk_level": "CRITICAL",
+          "timeout": 45,
+          "parameters": ["seconds"],
+          "example": "rewind 60"
+        }
+      }
+    },
+    "interverter": {
+      "description": "24GHz interverter commands",
+      "risk_base": "MEDIUM",
+      "commands": {
+        "tune": {
+          "description": "Tune interverter frequency",
+          "agent_role": "interverter",
+          "risk_level": "MEDIUM",
+          "timeout": 15,
+          "parameters": ["frequency"],
+          "example": "tune 24.0",
+          "notes": "Tunes to specified GHz frequency",
+          "expected_output": {
+            "status": "tuned",
+            "frequency": "24GHz",
+            "resolution": "0.088°"
+          }
+        },
+        "calibrate": {
+          "description": "Calibrate interverter array",
+          "agent_role": "interverter",
+          "risk_level": "HIGH",
+          "timeout": 25,
+          "parameters": [],
+          "example": "calibrate",
+          "notes": "Calibrates all 64 elements",
+          "expected_output": {
+            "status": "calibrated",
+            "elements": 64,
+            "accuracy": "99.99%"
+          }
+        },
+        "scan": {
+          "description": "Scan frequency spectrum",
+          "agent_role": "interverter",
+          "risk_level": "MEDIUM",
+          "timeout": 20,
+          "parameters": ["range"],
+          "example": "scan 20-30"
+        }
+      }
+    },
+    "plasma": {
+      "description": "Bio-plasma healing commands",
+      "risk_base": "LOW",
+      "commands": {
+        "generate": {
+          "description": "Generate bio-plasma field",
+          "agent_role": "plasma",
+          "risk_level": "MEDIUM",
+          "timeout": 20,
+          "parameters": ["intensity"],
+          "example": "generate high",
+          "notes": "Generates plasma at specified intensity",
+          "expected_output": {
+            "status": "generating",
+            "frequency": "7.83Hz",
+            "harmonics": [432, 528]
+          }
+        },
+        "heal": {
+          "description": "Run healing sequence",
+          "agent_role": "plasma",
+          "risk_level": "LOW",
+          "timeout": 10,
+          "parameters": ["target"],
+          "example": "heal self",
+          "notes": "Activates bio-plasma healing"
+        },
+        "resonate": {
+          "description": "Set resonance frequency",
+          "agent_role": "plasma",
+          "risk_level": "MEDIUM",
+          "timeout": 15,
+          "parameters": ["frequency"],
+          "example": "resonate 432",
+          "notes": "Sets resonance to specified Hz"
+        }
+      }
+    }
+  },
+  "whitelist": {
+    "description": "Commands that can be executed without explicit approval",
+    "commands": [
+      "status",
+      "health",
+      "coherence",
+      "entanglement",
+      "metrics",
+      "audit",
+      "sync",
+      "balance"
+    ]
+  },
+  "blacklist": {
+    "description": "Commands that are never allowed",
+    "commands": [
+      "rm -rf",
+      "dd",
+      "mkfs",
+      "reboot",
+      "shutdown",
+      "halt"
+    ]
+  }
+}
