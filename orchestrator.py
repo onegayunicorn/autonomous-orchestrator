@@ -22,6 +22,7 @@ import subprocess
 import hashlib
 import secrets
 from typing import Dict, List, Optional, Any
+import stripe_agent
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from datetime import datetime
@@ -179,6 +180,7 @@ AGENTS_CONFIG = [
     {"id": "PA-001", "name": "Bio-Plasma Generator", "role": "plasma", "risk_score": 5},
     {"id": "PA-002", "name": "Healing Frequency", "role": "plasma", "risk_score": 4},
     {"id": "PA-003", "name": "Resonance Stabilizer", "role": "plasma", "risk_score": 3},
+    {"id": "SA-007", "name": "Stripe Processor", "role": "stripe", "risk_score": 5},
 ]
 
 # ============================================================================
@@ -335,6 +337,14 @@ COMMANDS_CONFIG = {
             "risk_level": RiskLevel.LOW,
             "timeout": 10
         }
+    },
+    "stripe": {
+        "pay": {
+            "description": "Process a Stripe payment",
+            "agent_role": "stripe",
+            "risk_level": RiskLevel.MEDIUM,
+            "timeout": 30
+        }
     }
 }
 
@@ -461,6 +471,8 @@ class AutonomousOrchestrator:
                 result = self._execute_interverter_command(command)
             elif agent.role == "plasma":
                 result = self._execute_plasma_command(command)
+            elif agent.role == "stripe":
+                result = self._execute_stripe_command(command)
             else:
                 result = f"Unknown role: {agent.role}"
             
@@ -655,6 +667,16 @@ class AutonomousOrchestrator:
             return "✅ Plasma healing sequence activated"
         else:
             return f"Plasma command '{command.name}' executed"
+
+    def _execute_stripe_command(self, command: Command) -> str:
+        """Execute Stripe payment commands."""
+        if command.name == "pay":
+            agent = stripe_agent.StripeOrchestratorAgent()
+            # Default amount 1000 for demo
+            result = agent.process_payment(1000, "usd")
+            return json.dumps(result)
+        else:
+            return f"Stripe command '{command.name}' executed"
     
     def queue_command(self, category: str, command_name: str, description: str = "", 
                      agent_id: Optional[str] = None) -> Command:
@@ -827,6 +849,11 @@ def main():
                     print(result.result)
             elif user_input.lower() == "restart":
                 cmd = orchestrator.queue_command("orchestration", "restart")
+                result = orchestrator.execute_next()
+                if result:
+                    print(result.result)
+            elif user_input.lower() == "pay":
+                cmd = orchestrator.queue_command("stripe", "pay")
                 result = orchestrator.execute_next()
                 if result:
                     print(result.result)
