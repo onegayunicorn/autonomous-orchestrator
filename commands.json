@@ -1,10 +1,12 @@
 {
   "metadata": {
-    "version": "7.0.0",
-    "total_commands": 28,
-    "categories": 9,
+    "version": "7.1.0",
+    "total_commands": 35,
+    "categories": 11,
     "fold_entry": "FE-OGUF-P1",
-    "sovereign_architect": "Tyrone J Power Ω"
+    "sovereign_architect": "Tyrone J Power Ω",
+    "last_updated": "2026-05-23T03:18:00Z",
+    "changes": "Added Stripe (4 commands) and Junction (6 commands) categories"
   },
   "categories": {
     "system": {
@@ -17,7 +19,18 @@
           "risk_level": "LOW",
           "timeout": 5,
           "parameters": [],
-          "example": "status"
+          "example": "status",
+          "expected_output": {
+            "version": "7.1.0",
+            "fold_entry": "FE-OGUF-P1",
+            "coherence": 0.99997,
+            "entanglement_pairs": 288,
+            "agents_active": 43,
+            "commands_queued": 0,
+            "commands_completed": 0,
+            "risk_score": 27,
+            "uptime": 0.0
+          }
         },
         "health": {
           "description": "Check system health metrics",
@@ -25,7 +38,13 @@
           "risk_level": "LOW",
           "timeout": 5,
           "parameters": [],
-          "example": "health"
+          "example": "health",
+          "expected_output": {
+            "status": "healthy",
+            "coherence": 0.99997,
+            "agents": 43,
+            "timestamp": "2026-05-23T03:18:00Z"
+          }
         },
         "coherence": {
           "description": "Check quantum coherence level",
@@ -61,10 +80,10 @@
           "parameters": [],
           "example": "metrics",
           "expected_output": {
-            "cpu": 42.0,
-            "memory": 1.8,
-            "disk": 2.3,
-            "network": 15.0
+            "cpu_usage": 42.0,
+            "memory_usage": 1.8,
+            "disk_usage": 2.3,
+            "network_latency": 15.0
           }
         }
       }
@@ -80,7 +99,8 @@
           "timeout": 30,
           "parameters": ["services"],
           "example": "start all",
-          "notes": "Starts: orchestrator_bridge, auth_service, quantum/entanglement_twins, alchemy_engine, dawn_of_time, interverter_core, plasma_healing"
+          "notes": "Starts: orchestrator_bridge, auth_service, quantum/entanglement_twins, alchemy_engine, dawn_of_time, interverter_core, plasma_healing",
+          "expected_output": "All 7 Aether Grid services started"
         },
         "stop": {
           "description": "Stop all Aether Grid services",
@@ -88,7 +108,8 @@
           "risk_level": "HIGH",
           "timeout": 30,
           "parameters": ["services"],
-          "example": "stop all"
+          "example": "stop all",
+          "expected_output": "All services stopped"
         },
         "restart": {
           "description": "Restart all services",
@@ -96,7 +117,8 @@
           "risk_level": "HIGH",
           "timeout": 60,
           "parameters": [],
-          "example": "restart"
+          "example": "restart",
+          "expected_output": "All services restarted"
         },
         "scale": {
           "description": "Scale services up or down",
@@ -105,7 +127,8 @@
           "timeout": 20,
           "parameters": ["direction", "count"],
           "example": "scale up 2",
-          "notes": "direction: up/down, count: number of instances"
+          "notes": "direction: up/down, count: number of instances",
+          "expected_output": "Services scaled up"
         },
         "balance": {
           "description": "Balance service load",
@@ -113,7 +136,8 @@
           "risk_level": "MEDIUM",
           "timeout": 15,
           "parameters": [],
-          "example": "balance"
+          "example": "balance",
+          "expected_output": "Load balanced across services"
         }
       }
     },
@@ -128,7 +152,12 @@
           "timeout": 60,
           "parameters": ["command"],
           "example": "run ls -la",
-          "notes": "Only whitelisted commands allowed"
+          "notes": "Only whitelisted commands allowed",
+          "expected_output": {
+            "stdout": "output",
+            "stderr": "errors",
+            "returncode": 0
+          }
         },
         "script": {
           "description": "Run a script file",
@@ -137,7 +166,8 @@
           "timeout": 30,
           "parameters": ["script_path"],
           "example": "script /path/to/script.py",
-          "notes": "Script must be in approved directory"
+          "notes": "Script must be in approved directory",
+          "expected_output": "Script executed"
         },
         "async": {
           "description": "Run command asynchronously",
@@ -145,7 +175,8 @@
           "risk_level": "HIGH",
           "timeout": 5,
           "parameters": ["command"],
-          "example": "async npm run dev"
+          "example": "async npm run dev",
+          "expected_output": "Command started in background"
         },
         "background": {
           "description": "Run command in background",
@@ -153,7 +184,8 @@
           "risk_level": "HIGH",
           "timeout": 5,
           "parameters": ["command"],
-          "example": "background python3 orchestrator_bridge.py"
+          "example": "background python3 orchestrator_bridge.py",
+          "expected_output": "Command running in background"
         }
       }
     },
@@ -180,7 +212,8 @@
           "timeout": 10,
           "parameters": [],
           "example": "rotate_keys",
-          "notes": "Generates new 256-bit sovereign key"
+          "notes": "Generates new 256-bit sovereign key",
+          "expected_output": "Sovereign key rotated"
         },
         "verify": {
           "description": "Verify data integrity",
@@ -188,7 +221,8 @@
           "risk_level": "MEDIUM",
           "timeout": 10,
           "parameters": ["file"],
-          "example": "verify /path/to/file"
+          "example": "verify /path/to/file",
+          "expected_output": "Data integrity verified"
         },
         "encrypt": {
           "description": "Encrypt data",
@@ -196,7 +230,8 @@
           "risk_level": "HIGH",
           "timeout": 10,
           "parameters": ["data", "key"],
-          "example": "encrypt secret_data my_key"
+          "example": "encrypt secret_data my_key",
+          "expected_output": "Data encrypted"
         }
       }
     },
@@ -211,7 +246,11 @@
           "timeout": 20,
           "parameters": [],
           "example": "calibrate",
-          "notes": "Calibrates all quantum components"
+          "notes": "Calibrates all quantum components",
+          "expected_output": {
+            "status": "calibrated",
+            "coherence": 0.99997
+          }
         },
         "sync": {
           "description": "Synchronize entanglement pairs",
@@ -220,7 +259,11 @@
           "timeout": 15,
           "parameters": [],
           "example": "sync",
-          "notes": "Syncs all 288 entanglement pairs"
+          "notes": "Syncs all 288 entanglement pairs",
+          "expected_output": {
+            "status": "synchronized",
+            "pairs": 288
+          }
         },
         "measure": {
           "description": "Measure quantum state",
@@ -228,7 +271,12 @@
           "risk_level": "MEDIUM",
           "timeout": 10,
           "parameters": ["qubit"],
-          "example": "measure 0"
+          "example": "measure 0",
+          "expected_output": {
+            "coherence": 0.99997,
+            "entanglement_pairs": 288,
+            "quantum_error_rate": 0.001
+          }
         },
         "entangle": {
           "description": "Create entanglement",
@@ -236,7 +284,12 @@
           "risk_level": "HIGH",
           "timeout": 20,
           "parameters": ["qubit1", "qubit2"],
-          "example": "entangle 0 1"
+          "example": "entangle 0 1",
+          "expected_output": {
+            "status": "entangled",
+            "pairs": 288,
+            "bell_state": "Φ⁺"
+          }
         }
       }
     },
@@ -276,7 +329,8 @@
           "risk_level": "MEDIUM",
           "timeout": 15,
           "parameters": ["element"],
-          "example": "purify water"
+          "example": "purify water",
+          "expected_output": "Elements purified"
         }
       }
     },
@@ -305,7 +359,8 @@
           "timeout": 60,
           "parameters": ["scenario"],
           "example": "simulate dawn_of_time",
-          "notes": "Runs light/dark equilibrium simulation"
+          "notes": "Runs light/dark equilibrium simulation",
+          "expected_output": "Temporal simulation running"
         },
         "rewind": {
           "description": "Rewind temporal state",
@@ -313,7 +368,8 @@
           "risk_level": "CRITICAL",
           "timeout": 45,
           "parameters": ["seconds"],
-          "example": "rewind 60"
+          "example": "rewind 60",
+          "expected_output": "Rewound 60 seconds"
         }
       }
     },
@@ -355,7 +411,8 @@
           "risk_level": "MEDIUM",
           "timeout": 20,
           "parameters": ["range"],
-          "example": "scan 20-30"
+          "example": "scan 20-30",
+          "expected_output": "Scanning frequency range: 20-30GHz"
         }
       }
     },
@@ -373,6 +430,7 @@
           "notes": "Generates plasma at specified intensity",
           "expected_output": {
             "status": "generating",
+            "mode": "high",
             "frequency": "7.83Hz",
             "harmonics": [432, 528]
           }
@@ -384,7 +442,8 @@
           "timeout": 10,
           "parameters": ["target"],
           "example": "heal self",
-          "notes": "Activates bio-plasma healing"
+          "notes": "Activates bio-plasma healing",
+          "expected_output": "Healing sequence activated for self"
         },
         "resonate": {
           "description": "Set resonance frequency",
@@ -393,7 +452,175 @@
           "timeout": 15,
           "parameters": ["frequency"],
           "example": "resonate 432",
-          "notes": "Sets resonance to specified Hz"
+          "notes": "Sets resonance to specified Hz",
+          "expected_output": "Resonance set to 432Hz"
+        }
+      }
+    },
+    "stripe": {
+      "description": "Stripe payment processing commands",
+      "risk_base": "MEDIUM",
+      "agent_id": "SA-007",
+      "notes": "Process payments via Stripe API or simulation",
+      "commands": {
+        "pay": {
+          "description": "Process a Stripe payment",
+          "agent_role": "stripe",
+          "risk_level": "MEDIUM",
+          "timeout": 30,
+          "parameters": ["amount", "currency", "escrow_id"],
+          "example": "pay 1000 usd escrow_123",
+          "notes": "Processes payment with amount in cents",
+          "expected_output": {
+            "status": "success",
+            "transaction_id": "pi_test_...",
+            "amount": 1000,
+            "currency": "usd",
+            "risk_report": {"is_safe": true, "risk_score": 0.1},
+            "payment_intent": {"id": "pi_test_...", "status": "succeeded"}
+          }
+        },
+        "create_payment_intent": {
+          "description": "Create a Stripe PaymentIntent",
+          "agent_role": "stripe",
+          "risk_level": "MEDIUM",
+          "timeout": 15,
+          "parameters": ["amount", "currency", "customer", "payment_method"],
+          "example": "create_payment_intent 1000 usd cus_123 pm_456",
+          "notes": "Creates a PaymentIntent for later confirmation",
+          "expected_output": {
+            "id": "pi_test_...",
+            "amount": 1000,
+            "currency": "usd",
+            "status": "requires_payment_method",
+            "customer": "cus_123",
+            "payment_method": "pm_456"
+          }
+        },
+        "confirm_payment": {
+          "description": "Confirm a Stripe PaymentIntent",
+          "agent_role": "stripe",
+          "risk_level": "MEDIUM",
+          "timeout": 15,
+          "parameters": ["intent_id", "payment_method"],
+          "example": "confirm_payment pi_test_123 pm_456",
+          "notes": "Confirms a previously created PaymentIntent",
+          "expected_output": {
+            "id": "pi_test_123",
+            "amount": 1000,
+            "currency": "usd",
+            "status": "succeeded"
+          }
+        },
+        "create_customer": {
+          "description": "Create a Stripe Customer",
+          "agent_role": "stripe",
+          "risk_level": "LOW",
+          "timeout": 10,
+          "parameters": ["email", "name", "description"],
+          "example": "create_customer user@example.com John Doe",
+          "notes": "Creates a customer for future payments",
+          "expected_output": {
+            "id": "cus_test_...",
+            "email": "user@example.com",
+            "name": "John Doe"
+          }
+        }
+      }
+    },
+    "junction": {
+      "description": "J09 Junction Nexus commands - Cross-system bridging",
+      "risk_base": "HIGH",
+      "agent_id": "J09",
+      "notes": "Bridges Orchestrator with external systems (Stripe, NFC, Escrow)",
+      "commands": {
+        "bridge": {
+          "description": "Bridge request between systems",
+          "agent_role": "junction",
+          "risk_level": "HIGH",
+          "timeout": 30,
+          "parameters": ["source_system", "target_system", "command", "payload"],
+          "example": "bridge stripe orchestrator create_payment_intent {\"amount\": 1000}",
+          "notes": "Routes request from source to target system",
+          "expected_output": {
+            "request_id": "j09_...",
+            "success": true,
+            "source_system": "stripe",
+            "target_system": "orchestrator",
+            "result": {"command": "start", "status": "executed"}
+          }
+        },
+        "route": {
+          "description": "Auto-route request to best target",
+          "agent_role": "junction",
+          "risk_level": "MEDIUM",
+          "timeout": 20,
+          "parameters": ["source_system", "payload"],
+          "example": "route stripe {\"type\": \"payment\", \"amount\": 1000}",
+          "notes": "Automatically determines best target based on payload",
+          "expected_output": {
+            "request_id": "j09_...",
+            "source": "stripe",
+            "target": {"name": "orchestrator", "system": "orchestrator"},
+            "rule": "stripe_to_orchestrator",
+            "success": true
+          }
+        },
+        "translate": {
+          "description": "Translate data between protocols",
+          "agent_role": "junction",
+          "risk_level": "MEDIUM",
+          "timeout": 15,
+          "parameters": ["source_format", "target_format", "data"],
+          "example": "translate JSON XML {\"key\": \"value\"}",
+          "notes": "Converts data between formats (JSON, XML, YAML, etc.)",
+          "expected_output": {
+            "result": "<root><key>value</key></root>"
+          }
+        },
+        "status": {
+          "description": "Get J09 Junction Agent status",
+          "agent_role": "junction",
+          "risk_level": "LOW",
+          "timeout": 5,
+          "parameters": [],
+          "example": "status",
+          "expected_output": {
+            "id": "J09",
+            "name": "Junction Nexus",
+            "role": "junction",
+            "status": "ACTIVE",
+            "risk_score": 7,
+            "integrations": {
+              "stripe": {"protocol": "HTTPS", "endpoint": "api.stripe.com/v1"},
+              "nfc_escrow": {"protocol": "HTTP", "endpoint": "localhost:8000"},
+              "orchestrator": {"protocol": "HTTP", "endpoint": "localhost:8081"},
+              "quantum": {"protocol": "GRPC", "endpoint": "localhost:50051"}
+            },
+            "queue_size": 0,
+            "active_bridges": 0
+          }
+        },
+        "list_integrations": {
+          "description": "List all J09 integrations",
+          "agent_role": "junction",
+          "risk_level": "LOW",
+          "timeout": 5,
+          "parameters": [],
+          "example": "list_integrations",
+          "expected_output": {
+            "integrations": ["stripe", "nfc_escrow", "orchestrator", "quantum"]
+          }
+        },
+        "configure": {
+          "description": "Configure a J09 integration",
+          "agent_role": "junction",
+          "risk_level": "MEDIUM",
+          "timeout": 10,
+          "parameters": ["name", "integration_type", "protocol", "endpoint", "api_key"],
+          "example": "configure my_api STRIPE HTTPS api.example.com sk_test_...",
+          "notes": "Adds a new integration to J09",
+          "expected_output": "Integration configured"
         }
       }
     }
@@ -408,7 +635,9 @@
       "metrics",
       "audit",
       "sync",
-      "balance"
+      "balance",
+      "j09 status",
+      "j09 list_integrations"
     ]
   },
   "blacklist": {
@@ -419,7 +648,64 @@
       "mkfs",
       "reboot",
       "shutdown",
-      "halt"
+      "halt",
+      "format",
+      ":(){ :|:& };:"
+    ]
+  },
+  "risk_levels": {
+    "LOW": {
+      "description": "Safe commands with minimal impact",
+      "score_range": "0-30",
+      "examples": ["status", "health", "metrics", "list_integrations"]
+    },
+    "MEDIUM": {
+      "description": "Standard commands with moderate impact",
+      "score_range": "31-60",
+      "examples": ["sync", "balance", "translate", "create_customer"]
+    },
+    "HIGH": {
+      "description": "Powerful commands with significant impact",
+      "score_range": "61-80",
+      "examples": ["start", "stop", "pay", "bridge", "route"]
+    },
+    "CRITICAL": {
+      "description": "Dangerous commands with system-wide impact",
+      "score_range": "81-100",
+      "examples": ["anchor", "rewind", "rotate_keys", "transmute"]
+    }
+  },
+  "system_info": {
+    "total_agents": 43,
+    "new_agents": [
+      {
+        "id": "SA-007",
+        "name": "Stripe Processor",
+        "role": "stripe",
+        "risk_score": 5,
+        "description": "Processes Stripe payments and integrates with Orchestrator"
+      },
+      {
+        "id": "J09",
+        "name": "Junction Nexus",
+        "role": "junction",
+        "risk_score": 7,
+        "description": "Universal bridge between Orchestrator and external systems"
+      }
+    ],
+    "new_categories": [
+      {
+        "name": "stripe",
+        "description": "Stripe payment processing",
+        "command_count": 4,
+        "agent": "SA-007"
+      },
+      {
+        "name": "junction",
+        "description": "Cross-system bridging",
+        "command_count": 6,
+        "agent": "J09"
+      }
     ]
   }
 }
