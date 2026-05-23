@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
 """
-AGENT MANAGEMENT SYSTEM
-======================
-Manages 42 autonomous agents for Aether Grid Orchestrator
+AGENT MANAGEMENT SYSTEM - UPDATED WITH J09 & STRIPE
+======================================================
+Manages 43 autonomous agents for Aether Grid Orchestrator
 - Quantum Agents (6)
 - Orchestration Agents (6)
 - Execution Agents (6)
-- Security Agents (6)
+- Security Agents (7) - INCLUDING STRIPE PROCESSOR
 - Monitoring Agents (5)
 - Alchemical Agents (3)
 - Temporal Agents (3)
 - Interverter Agents (3)
 - Plasma Agents (3)
+- Junction Agent (1) - J09 NEXUS
 
-Total: 42 Agents
+Total: 43 Agents
+
+UPDATES:
+- Added SA-007: Stripe Processor (Stripe integration)
+- Added J09: Junction Nexus (Universal bridge)
 """
 
 import json
@@ -51,6 +56,8 @@ class AgentRole(Enum):
     TEMPORAL = "temporal"
     INTERVERTER = "interverter"
     PLASMA = "plasma"
+    STRIPE = "stripe"
+    JUNCTION = "junction"
 
 
 @dataclass
@@ -109,6 +116,10 @@ class Agent:
                 result = self._execute_interverter(command, *args, **kwargs)
             elif self.role == AgentRole.PLASMA:
                 result = self._execute_plasma(command, *args, **kwargs)
+            elif self.role == AgentRole.STRIPE:
+                result = self._execute_stripe(command, *args, **kwargs)
+            elif self.role == AgentRole.JUNCTION:
+                result = self._execute_junction(command, *args, **kwargs)
             else:
                 result = f"Unknown command: {command}"
             
@@ -213,6 +224,84 @@ class Agent:
             return {"status": "healing", "harmonics": [432, 528]}
         else:
             return f"Plasma command '{command}' executed"
+    
+    def _execute_stripe(self, command: str, *args, **kwargs) -> Any:
+        """Execute Stripe payment commands."""
+        try:
+            import stripe
+            stripe.api_key = kwargs.get("api_key", "sk_test_")
+            
+            if command == "create_payment_intent":
+                intent = stripe.PaymentIntent.create(
+                    amount=kwargs.get("amount", 1000),
+                    currency=kwargs.get("currency", "usd"),
+                    payment_method_types=["card"],
+                    metadata=kwargs.get("metadata", {}),
+                )
+                return {"status": "created", "payment_intent": intent.to_dict()}
+            
+            elif command == "confirm_payment":
+                intent_id = kwargs.get("intent_id")
+                if intent_id:
+                    intent = stripe.PaymentIntent.confirm(intent_id)
+                    return {"status": "confirmed", "payment_intent": intent.to_dict()}
+                return {"error": "intent_id required"}
+            
+            elif command == "create_customer":
+                customer = stripe.Customer.create(
+                    email=kwargs.get("email"),
+                    name=kwargs.get("name"),
+                    metadata=kwargs.get("metadata", {}),
+                )
+                return {"status": "created", "customer": customer.to_dict()}
+            
+            else:
+                return f"Stripe command '{command}' executed"
+                
+        except ImportError:
+            return {"error": "Stripe SDK not installed. Install with: pip install stripe"}
+        except Exception as e:
+            return {"error": str(e)}
+    
+    def _execute_junction(self, command: str, *args, **kwargs) -> Any:
+        """Execute J09 Junction commands."""
+        try:
+            from junction.j09_agent import J09Agent
+            j09 = J09Agent()
+            
+            if command == "bridge":
+                return j09.bridge(
+                    source_system=kwargs.get("source"),
+                    target_system=kwargs.get("target"),
+                    command=kwargs.get("command"),
+                    payload=kwargs.get("payload", {}),
+                ).to_dict()
+            
+            elif command == "route":
+                return j09.route_request(
+                    source_system=kwargs.get("source"),
+                    payload=kwargs.get("payload", {}),
+                ).to_dict()
+            
+            elif command == "status":
+                return j09.get_status()
+            
+            elif command == "translate":
+                from junction.translator import Translator, DataFormat
+                translator = Translator()
+                return translator.translate(
+                    data=kwargs.get("data", {}),
+                    source_format=kwargs.get("source_format"),
+                    target_format=kwargs.get("target_format"),
+                )
+            
+            else:
+                return j09.execute(command, *args, **kwargs)
+                
+        except ImportError:
+            return {"error": "Junction module not available"}
+        except Exception as e:
+            return {"error": str(e)}
 
 
 # ============================================================================
@@ -227,7 +316,7 @@ class AgentRegistry:
         self._initialize_agents()
     
     def _initialize_agents(self):
-        """Initialize all 42 agents."""
+        """Initialize all 43 agents (42 original + J09 + Stripe)."""
         # Quantum Agents (6)
         self.agents["QA-001"] = Agent(
             id="QA-001",
@@ -411,7 +500,7 @@ class AgentRegistry:
             dependencies=["EA-002"]
         )
         
-        # Security Agents (6)
+        # Security Agents (7) - INCLUDING STRIPE PROCESSOR
         self.agents["SA-001"] = Agent(
             id="SA-001",
             name="Authentication Gate",
@@ -470,6 +559,17 @@ class AgentRegistry:
             risk_score=5,
             capabilities=["hash_verification", "tamper_detection"],
             dependencies=["SA-004"]
+        )
+        
+        # NEW: Stripe Processor Agent
+        self.agents["SA-007"] = Agent(
+            id="SA-007",
+            name="Stripe Processor",
+            role=AgentRole.STRIPE,
+            description="Processes Stripe payments and integrates with Orchestrator",
+            risk_score=5,
+            capabilities=["payment_processing", "stripe_api_integration", "payment_webhook_handling"],
+            dependencies=["SA-001", "OA-002"]
         )
         
         # Monitoring Agents (5)
@@ -646,6 +746,26 @@ class AgentRegistry:
             capabilities=["resonance_monitoring", "stability_maintenance"],
             dependencies=["PA-002"]
         )
+        
+        # NEW: J09 Junction Nexus Agent
+        self.agents["J09"] = Agent(
+            id="J09",
+            name="Junction Nexus",
+            role=AgentRole.JUNCTION,
+            description="Universal bridge between Orchestrator and all external systems",
+            risk_score=7,
+            capabilities=[
+                "cross_system_bridging",
+                "protocol_translation",
+                "request_routing",
+                "workflow_coordination",
+                "api_integration",
+                "data_synchronization",
+                "error_handling",
+                "load_balancing"
+            ],
+            dependencies=["QA-001", "OA-002", "SA-001", "MA-001", "SA-007"]
+        )
     
     def get_agent(self, agent_id: str) -> Optional[Agent]:
         """Get an agent by ID."""
@@ -698,9 +818,13 @@ if __name__ == "__main__":
         agents = registry.get_agents_by_role(role)
         print(f"\n{role.value.upper()} AGENTS ({len(agents)}):")
         for agent in agents:
-            print(f"  {agent.id}: {agent.name} (Risk: {agent.risk_score})")
+            print(f"  {agent.id:8} - {agent.name:25} (Risk: {agent.risk_score})")
     
     print("\n" + "=" * 60)
+    print("NEW AGENTS:")
+    print("  SA-007 - Stripe Processor (Stripe integration)")
+    print("  J09    - Junction Nexus (Universal bridge)")
+    print("=" * 60)
     print("Use: from agents import AgentRegistry")
     print("     registry = AgentRegistry()")
     print("     agents = registry.get_all_agents()")
